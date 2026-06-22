@@ -22,11 +22,14 @@ config.capabilities = [
 
 config.services = config.services.concat('chromedriver');
 
+// Extend the shared reporters (don't replace them, so a future shared default
+// survives). Per-worker filename keyed on the WDIO capability id (cid) so
+// parallel workers don't overwrite a single file — Jenkins globs results/*.xml.
 config.reporters = [
-  'spec',
+  ...(config.reporters as any[]),
   ['junit', {
     outputDir: './results',
-    outputFileFormat: () => 'wdio-junit.xml',
+    outputFileFormat: ({ cid }: { cid: string }) => `wdio-junit-${cid}.xml`,
   }],
 ];
 
