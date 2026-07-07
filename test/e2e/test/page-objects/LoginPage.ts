@@ -15,7 +15,7 @@ class LoginPage extends BasePage {
   }
 
   get loginButton() {
-    return $('.btn_login');
+    return $('.btn_action');
   }
 
   get errorMessage() {
