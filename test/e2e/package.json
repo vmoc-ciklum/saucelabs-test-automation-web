@@ -6,6 +6,7 @@
   "scripts": {
     "test.local": "wdio test/configs/wdio.local.chrome.conf.ts",
     "test.saucedemo": "wdio test/configs/wdio.saucedemo.conf.ts",
+    "test.saucedemo.local": "wdio test/configs/wdio.saucedemo.local.conf.ts",
     "test.saucelabs.eu": "REGION=eu wdio test/configs/wdio.saucelabs.conf.ts",
     "test.saucelabs.us": "wdio test/configs/wdio.saucelabs.conf.ts"
   },
