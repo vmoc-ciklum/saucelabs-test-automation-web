@@ -51,7 +51,7 @@ describe('Swag items list', () => {
 
     it('should validate that a product can be removed from the cart', async () => {
         await setTestContext({
-            user: LOGIN_USERS.ERROR,
+            user: LOGIN_USERS.STANDARD,
             path: PAGES.SWAG_ITEMS,
             products: [PRODUCTS.BACKPACK]
         });
