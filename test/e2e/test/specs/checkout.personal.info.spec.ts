@@ -32,7 +32,7 @@ describe('Checkout - Personal info', () => {
   });
 
   it('should be able to continue the checkout', async () => {
-    await CheckoutPersonalInfoPage.submitPersonalInfo(PERSONAL_INFO.STANDARD);
+    await CheckoutPersonalInfoPage.submitPersonalInfo({ ...PERSONAL_INFO.STANDARD, zip: '94105' });
 
     await expect(await CheckoutSummaryPage.waitForIsShown()).toBeTruthy();
   });
