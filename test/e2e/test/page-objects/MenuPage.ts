@@ -16,7 +16,7 @@ class MenuPage {
     }
 
     get resetButton() {
-        return $('#reset_sidebar_link');
+        return $('#reset_app_state_link');
     }
 
     /**

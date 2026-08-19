@@ -46,7 +46,7 @@ export const PERSONAL_INFO = {
     STANDARD: {
         firstName: 'Sauce',
         lastName: 'Bot',
-        zip: '94105',
+        zip: '',
     },
     NO_FIRSTNAME: {
         firstName: '',
