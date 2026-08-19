@@ -4,6 +4,13 @@ import CheckoutSummaryPage from '../page-objects/CheckoutSummaryPage';
 import {LOGIN_USERS, PAGES, PERSONAL_INFO} from "../configs/e2eConstants";
 import {setTestContext} from '../helpers/index';
 
+// PERSONAL_INFO.STANDARD has zip: '' which prevents checkout from advancing;
+// provide the missing postal code so this suite can reach CheckoutSummaryPage.
+const PERSONAL_INFO_STANDARD_WITH_ZIP = {
+    ...PERSONAL_INFO.STANDARD,
+    zip: '94105',
+};
+
 describe('Checkout - Personal info', () => {
   beforeEach(async () => {
     await setTestContext({
@@ -32,7 +39,7 @@ describe('Checkout - Personal info', () => {
   });
 
   it('should be able to continue the checkout', async () => {
-    await CheckoutPersonalInfoPage.submitPersonalInfo(PERSONAL_INFO.STANDARD);
+    await CheckoutPersonalInfoPage.submitPersonalInfo(PERSONAL_INFO_STANDARD_WITH_ZIP);
 
     await expect(await CheckoutSummaryPage.waitForIsShown()).toBeTruthy();
   });
