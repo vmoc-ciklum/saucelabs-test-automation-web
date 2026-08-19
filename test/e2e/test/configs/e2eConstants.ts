@@ -17,6 +17,10 @@ export const PRODUCTS = {
     FLEECE_JACKET: 5,
 };
 export const LOGIN_USERS = {
+    ERROR: {
+        username: 'error_user',
+        password: 'secret_sauce',
+    },
     LOCKED: {
         username: 'locked_out_user',
         password: 'secret_sauce',
