@@ -10,10 +10,12 @@ const SHOPPING_USERS = [
     LOGIN_USERS.ERROR,
 ];
 
-// problem_user has intentionally broken sort — selecting any sort option leaves products in
-// Name (A to Z) order, so the "sort then reload" reset test cannot verify a meaningful state
-// change for that persona.
-const USERS_WITH_WORKING_SORT = SHOPPING_USERS.filter(u => u !== LOGIN_USERS.PROBLEM);
+// problem_user and error_user have intentionally broken sort — selecting any sort option leaves
+// products in Name (A to Z) order, so the "sort then reload" reset test cannot verify a
+// meaningful state change for those personas.
+const USERS_WITH_WORKING_SORT = SHOPPING_USERS.filter(
+    u => u !== LOGIN_USERS.PROBLEM && u !== LOGIN_USERS.ERROR,
+);
 
 const NAME_A_TO_Z = [
     'Sauce Labs Backpack',
