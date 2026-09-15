@@ -2,6 +2,22 @@ import SwagOverviewPage from '../page-objects/SwagOverviewPage';
 import {setTestContext} from '../helpers/index';
 import {LOGIN_USERS, PAGES} from '../configs/e2eConstants';
 
+const SHOPPING_USERS = [
+    LOGIN_USERS.STANDARD,
+    LOGIN_USERS.PROBLEM,
+    LOGIN_USERS.PERFORMANCE,
+    LOGIN_USERS.ERROR,
+];
+
+const PRICE_LOW_TO_HIGH = [
+    'Sauce Labs Onesie',
+    'Sauce Labs Bike Light',
+    'Sauce Labs Bolt T-Shirt',
+    'Test.allTheThings() T-Shirt (Red)',
+    'Sauce Labs Backpack',
+    'Sauce Labs Fleece Jacket',
+];
+
 // Seeded by the Story QA demo (demos/story-qa/seed.py suite). Each test title carries the Jira
 // key of the test case it automates.
 describe('Swag items sorting', () => {
@@ -38,18 +54,23 @@ describe('Swag items sorting', () => {
     });
 
     it('[QG-53] sorts by Price (low to high)', async () => {
-        await SwagOverviewPage.selectSortOption('lohi');
+        for (const user of SHOPPING_USERS) {
+            await setTestContext({ user, path: PAGES.SWAG_ITEMS });
+            await SwagOverviewPage.waitForIsShown();
 
-        const prices = (await $$('.inventory_item_price').map((price) => price.getText()))
-            .map((text) => parseFloat(text.replace('$', '')));
-        for (let index = 1; index < prices.length; index++) {
-            await expect(prices[index]).toBeGreaterThanOrEqual(prices[index - 1]);
+            await SwagOverviewPage.selectSortOption('lohi');
+
+            if (await browser.isAlertOpen()) {
+                const alertText = await browser.getAlertText();
+                await browser.acceptAlert();
+                throw new Error(`[${user.username}] Unexpected alert after sorting: "${alertText}"`);
+            }
+
+            const names = await SwagOverviewPage.getSwagNames();
+            await expect({ account: user.username, names }).toEqual({
+                account: user.username,
+                names: PRICE_LOW_TO_HIGH,
+            });
         }
-    });
-
-    it.skip('[QG-54] offers a Best sellers sort option', async () => {
-        const options = await $$('[data-test="product-sort-container"] option').map((option) => option.getText());
-
-        await expect(options).toContain('Best sellers');
     });
 });
