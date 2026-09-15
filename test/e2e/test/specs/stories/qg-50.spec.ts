@@ -26,7 +26,7 @@ const PRICE_HIGH_LOW_ORDER = [
     'Sauce Labs Fleece Jacket',
     'Sauce Labs Backpack',
     'Sauce Labs Bolt T-Shirt',
-    'Sauce Labs Red T-Shirt',
+    'Test.allTheThings() T-Shirt (Red)',
     'Sauce Labs Bike Light',
     'Sauce Labs Onesie',
 ];
@@ -84,7 +84,7 @@ describe('QG-50 — Shopper sorts the catalogue by price', () => {
 
         const names = await SwagOverviewPage.getSwagNames();
         const boltIndex = names.indexOf('Sauce Labs Bolt T-Shirt');
-        const redIndex = names.indexOf('Sauce Labs Red T-Shirt');
+        const redIndex = names.indexOf('Test.allTheThings() T-Shirt (Red)');
         await expect(boltIndex).toBeLessThan(redIndex);
     });
 
