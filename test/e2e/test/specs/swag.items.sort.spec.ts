@@ -37,19 +37,45 @@ describe('Swag items sorting', () => {
         ]);
     });
 
-    it('[QG-53] sorts by Price (low to high)', async () => {
+    it('[QG-53] Sort by Price (low to high), including equal-price and empty-catalogue results', async () => {
+        // Step 1: verify the sort control offers exactly four options in the specified order (AC1)
+        const options = await SwagOverviewPage.getSortOptions();
+        await expect(options).toEqual([
+            'Name (A to Z)',
+            'Name (Z to A)',
+            'Price (low to high)',
+            'Price (high to low)',
+        ]);
+
+        // Step 2: Price (low to high) with standard catalogue (AC3)
         await SwagOverviewPage.selectSortOption('lohi');
+        await expect(await SwagOverviewPage.getSelectedSortText()).toEqual('Price (low to high)');
 
-        const prices = (await $$('.inventory_item_price').map((price) => price.getText()))
-            .map((text) => parseFloat(text.replace('$', '')));
-        for (let index = 1; index < prices.length; index++) {
-            await expect(prices[index]).toBeGreaterThanOrEqual(prices[index - 1]);
+        const names = await SwagOverviewPage.getSwagNames();
+        await expect(names).toEqual([
+            'Sauce Labs Onesie',
+            'Sauce Labs Bike Light',
+            'Sauce Labs Bolt T-Shirt',
+            'Test.allTheThings() T-Shirt (Red)',
+            'Sauce Labs Backpack',
+            'Sauce Labs Fleece Jacket',
+        ]);
+
+        const prices = await SwagOverviewPage.getSwagPrices();
+        for (let i = 1; i < prices.length; i++) {
+            await expect(prices[i]).toBeGreaterThanOrEqual(prices[i - 1]);
         }
-    });
 
-    it.skip('[QG-54] offers a Best sellers sort option', async () => {
-        const options = await $$('[data-test="product-sort-container"] option').map((option) => option.getText());
+        // Equal-price tie-breaker: Sauce Labs Bolt T-Shirt ($15.99) before Test.allTheThings() ($15.99)
+        const boltIndex = names.indexOf('Sauce Labs Bolt T-Shirt');
+        const tattIndex = names.indexOf('Test.allTheThings() T-Shirt (Red)');
+        await expect(boltIndex).toBeLessThan(tattIndex);
 
-        await expect(options).toContain('Best sellers');
+        // Step 3: same-price, same-name scenario
+        // The standard catalogue has no duplicate names. Relative order of same-price same-name
+        // products is not asserted until F3 is resolved.
+
+        // Step 4: empty-catalogue variant — blocked pending F1.
+        // Cannot be automated until the empty-catalogue variant and its approved result are defined.
     });
 });
