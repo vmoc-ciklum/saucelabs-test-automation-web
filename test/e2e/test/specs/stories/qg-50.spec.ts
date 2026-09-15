@@ -102,6 +102,7 @@ describe('QG-50 — Shopper sorts the catalogue by price', () => {
 
         await SwagDetailsPage.goBack();
         await SwagOverviewPage.waitForIsShown();
+        await browser.waitUntil(async () => (await $$('.inventory_item_name')).length === NAME_AZ_ORDER.length);
 
         const selectedOption = await $('[data-test="product-sort-container"]').getValue();
         await expect(selectedOption).toBe('az');
