@@ -17,7 +17,7 @@ const PRICE_LOW_HIGH_ORDER = [
     'Sauce Labs Onesie',
     'Sauce Labs Bike Light',
     'Sauce Labs Bolt T-Shirt',
-    'Sauce Labs Red T-Shirt',
+    'Test.allTheThings() T-Shirt (Red)',
     'Sauce Labs Backpack',
     'Sauce Labs Fleece Jacket',
 ];
