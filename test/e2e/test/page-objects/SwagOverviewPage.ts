@@ -74,6 +74,12 @@ class SwagOverviewPage extends BasePage {
    * Get the names of the listed swag items, in the order shown
    */
   async getSwagNames(): Promise<string[]> {
+    await browser.waitUntil(async () => {
+      const first = (await $$('.inventory_item_name')).length;
+      await browser.pause(100);
+      const second = (await $$('.inventory_item_name')).length;
+      return first > 0 && first === second;
+    });
     return $$('.inventory_item_name').map((name) => name.getText());
   }
 }
