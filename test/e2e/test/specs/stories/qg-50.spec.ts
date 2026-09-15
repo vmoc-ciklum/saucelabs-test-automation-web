@@ -10,6 +10,11 @@ const SHOPPING_USERS = [
     LOGIN_USERS.ERROR,
 ];
 
+// problem_user has intentionally broken sort — selecting any sort option leaves products in
+// Name (A to Z) order, so the "sort then reload" reset test cannot verify a meaningful state
+// change for that persona.
+const USERS_WITH_WORKING_SORT = SHOPPING_USERS.filter(u => u !== LOGIN_USERS.PROBLEM);
+
 const NAME_A_TO_Z = [
     'Sauce Labs Backpack',
     'Sauce Labs Bike Light',
@@ -73,7 +78,7 @@ describe('[QG-50] Shopper sorts the catalogue by price', () => {
     });
 
     it('[QG-55] Catalogue resets to Name (A to Z) after page reload', async () => {
-        for (const user of SHOPPING_USERS) {
+        for (const user of USERS_WITH_WORKING_SORT) {
             await setTestContext({ user, path: PAGES.SWAG_ITEMS });
             await SwagOverviewPage.waitForIsShown();
 
