@@ -68,6 +68,7 @@ class SwagOverviewPage extends BasePage {
    */
   async selectSortOption(value: 'az' | 'za' | 'lohi' | 'hilo') {
     const select = $('[data-test="product-sort-container"]');
+    await select.waitForClickable();
     await select.selectByAttribute('value', value);
     await browser.waitUntil(
       async () => (await $('[data-test="product-sort-container"]').getValue()) === value,
