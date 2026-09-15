@@ -38,8 +38,8 @@ const PRICE_LOW_TO_HIGH = [
 const PRICE_HIGH_TO_LOW = [
     'Sauce Labs Fleece Jacket',
     'Sauce Labs Backpack',
-    'Test.allTheThings() T-Shirt (Red)',
     'Sauce Labs Bolt T-Shirt',
+    'Test.allTheThings() T-Shirt (Red)',
     'Sauce Labs Bike Light',
     'Sauce Labs Onesie',
 ];
