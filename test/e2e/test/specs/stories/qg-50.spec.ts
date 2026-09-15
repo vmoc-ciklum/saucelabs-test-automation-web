@@ -109,15 +109,19 @@ describe('QG-50 Shopper sorts the catalogue by price', () => {
             await setTestContext({user: account, path: PAGES.SWAG_ITEMS});
             await SwagOverviewPage.waitForIsShown();
 
-            await SwagOverviewPage.selectSortOption('lohi');
-            await assertNoAlert(account.username);
+            try {
+                await SwagOverviewPage.selectSortOption('lohi');
+                await assertNoAlert(account.username);
 
-            await expect(await SwagOverviewPage.getSelectedSortText()).toEqual(
-                'Price (low to high)',
-            );
-            await expect(await SwagOverviewPage.getSwagNames()).toEqual(
-                PRICE_LOW_TO_HIGH_ORDER,
-            );
+                await expect(await SwagOverviewPage.getSelectedSortText()).toEqual(
+                    'Price (low to high)',
+                );
+                await expect(await SwagOverviewPage.getSwagNames()).toEqual(
+                    PRICE_LOW_TO_HIGH_ORDER,
+                );
+            } catch (e) {
+                throw new Error(`[${account.username}] ${(e as Error).message}`);
+            }
         }
     });
 
