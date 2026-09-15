@@ -62,6 +62,20 @@ class SwagOverviewPage extends BasePage {
   async openSwagDetails(needle: Needle) {
     await (await this.swag(needle)).$('.inventory_item_name').click();
   }
+
+  /**
+   * Choose a sort order in the catalogue's sort control
+   */
+  async selectSortOption(value: 'az' | 'za' | 'lohi' | 'hilo') {
+    await $('[data-test="product-sort-container"]').selectByAttribute('value', value);
+  }
+
+  /**
+   * Get the names of the listed swag items, in the order shown
+   */
+  async getSwagNames(): Promise<string[]> {
+    return $$('.inventory_item_name').map((name) => name.getText());
+  }
 }
 
 export default new SwagOverviewPage();
