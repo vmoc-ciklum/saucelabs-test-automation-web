@@ -53,10 +53,11 @@ class SwagDetailsPage extends BasePage {
   }
 
   /**
-   * Go back to the inventory list via browser history so session state (e.g. sort) is preserved.
+   * Go back to the inventory list by clicking the in-app "Back to products" button so the app
+   * restores sort order from session storage on re-mount.
    */
   async goBack() {
-    await browser.back();
+    await this.goBackButton.click();
   }
 }
 
