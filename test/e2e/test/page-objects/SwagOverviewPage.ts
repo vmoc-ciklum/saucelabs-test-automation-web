@@ -81,10 +81,11 @@ class SwagOverviewPage extends BasePage {
    * Get each item's name and displayed price string (e.g. "$7.99"), in catalogue order
    */
   async getSwagNamesWithPrices(): Promise<{ name: string; price: string }[]> {
-    return $$('.inventory_item').map(async (item) => ({
+    const items = await $$('.inventory_item');
+    return Promise.all(items.map(async (item) => ({
       name: await item.$('.inventory_item_name').getText(),
       price: await item.$('.inventory_item_price').getText(),
-    }));
+    })));
   }
 
   /**
