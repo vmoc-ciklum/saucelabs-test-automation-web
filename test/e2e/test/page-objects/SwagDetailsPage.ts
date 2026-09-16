@@ -53,10 +53,10 @@ class SwagDetailsPage extends BasePage {
   }
 
   /**
-   * Go back to the inventory list
+   * Go back to the inventory list via browser history so session state (e.g. sort) is preserved.
    */
   async goBack() {
-    await this.goBackButton.click();
+    await browser.back();
   }
 }
 
