@@ -41,8 +41,16 @@ export const LOGIN_USERS = {
         username: 'performance_glitch_user',
         password: 'secret_sauce',
     },
+    PROBLEM: {
+        username: 'problem_user',
+        password: 'secret_sauce',
+    },
     STANDARD: {
         username: 'standard_user',
+        password: 'secret_sauce',
+    },
+    VISUAL: {
+        username: 'visual_user',
         password: 'secret_sauce',
     },
 };
