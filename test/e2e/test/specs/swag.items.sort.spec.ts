@@ -38,18 +38,32 @@ describe('Swag items sorting', () => {
     });
 
     it('[QG-53] sorts by Price (low to high)', async () => {
-        await SwagOverviewPage.selectSortOption('lohi');
-
-        const prices = (await $$('.inventory_item_price').map((price) => price.getText()))
-            .map((text) => parseFloat(text.replace('$', '')));
-        for (let index = 1; index < prices.length; index++) {
-            await expect(prices[index]).toBeGreaterThanOrEqual(prices[index - 1]);
+        const users = [
+            LOGIN_USERS.STANDARD,
+            LOGIN_USERS.PROBLEM,
+            LOGIN_USERS.PERFORMANCE,
+            LOGIN_USERS.ERROR,
+        ];
+        const expectedOrder = [
+            'Sauce Labs Onesie',
+            'Sauce Labs Bike Light',
+            'Sauce Labs Bolt T-Shirt',
+            'Test.allTheThings() T-Shirt (Red)',
+            'Sauce Labs Backpack',
+            'Sauce Labs Fleece Jacket',
+        ];
+        for (const user of users) {
+            await setTestContext({ user, path: PAGES.SWAG_ITEMS });
+            await SwagOverviewPage.waitForIsShown();
+            await SwagOverviewPage.selectSortOption('lohi');
+            const alertOpen = await browser.isAlertOpen();
+            if (alertOpen) {
+                const alertText = await browser.getAlertText();
+                await browser.acceptAlert();
+                await expect(`${user.username}: no alert`).toEqual(`${user.username}: no alert — got: "${alertText}"`);
+            }
+            const names = await SwagOverviewPage.getSwagNames();
+            await expect(`${user.username}: ${names.join(', ')}`).toEqual(`${user.username}: ${expectedOrder.join(', ')}`);
         }
-    });
-
-    it.skip('[QG-54] offers a Best sellers sort option', async () => {
-        const options = await $$('[data-test="product-sort-container"] option').map((option) => option.getText());
-
-        await expect(options).toContain('Best sellers');
     });
 });
