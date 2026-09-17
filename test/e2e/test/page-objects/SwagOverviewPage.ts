@@ -76,6 +76,33 @@ class SwagOverviewPage extends BasePage {
   async getSwagNames(): Promise<string[]> {
     return $$('.inventory_item_name').map((name) => name.getText());
   }
+
+  /**
+   * Get the price labels of the listed swag items, in the order shown (e.g. '$9.99')
+   */
+  async getSwagPrices(): Promise<string[]> {
+    return $$('.inventory_item_price').map((price) => price.getText());
+  }
+
+  /**
+   * Get the text of every option in the sort control, in DOM order
+   */
+  async getSortOptions(): Promise<string[]> {
+    return $$('[data-test="product-sort-container"] option').map((option) => option.getText());
+  }
+
+  /**
+   * Get the display label of the currently selected sort option
+   */
+  async getSelectedSortLabel(): Promise<string> {
+    const options = await $$('[data-test="product-sort-container"] option');
+    for (const option of options) {
+      if (await option.isSelected()) {
+        return option.getText();
+      }
+    }
+    return '';
+  }
 }
 
 export default new SwagOverviewPage();
