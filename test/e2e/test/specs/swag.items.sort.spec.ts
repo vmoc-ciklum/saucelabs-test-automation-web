@@ -38,18 +38,42 @@ describe('Swag items sorting', () => {
     });
 
     it('[QG-53] sorts by Price (low to high)', async () => {
-        await SwagOverviewPage.selectSortOption('lohi');
+        const eligibleUsers = [
+            LOGIN_USERS.STANDARD,
+            LOGIN_USERS.PROBLEM,
+            LOGIN_USERS.PERFORMANCE,
+            LOGIN_USERS.ERROR,
+        ];
+        const expectedOrder = [
+            'Sauce Labs Onesie',
+            'Sauce Labs Bike Light',
+            'Sauce Labs Bolt T-Shirt',
+            'Test.allTheThings() T-Shirt (Red)',
+            'Sauce Labs Backpack',
+            'Sauce Labs Fleece Jacket',
+        ];
 
-        const prices = (await $$('.inventory_item_price').map((price) => price.getText()))
-            .map((text) => parseFloat(text.replace('$', '')));
-        for (let index = 1; index < prices.length; index++) {
-            await expect(prices[index]).toBeGreaterThanOrEqual(prices[index - 1]);
+        for (const user of eligibleUsers) {
+            await setTestContext({ user, path: PAGES.SWAG_ITEMS });
+            await SwagOverviewPage.waitForIsShown();
+
+            await SwagOverviewPage.selectSortOption('lohi');
+
+            if (await browser.isAlertOpen()) {
+                const alertText = await browser.getAlertText();
+                await browser.acceptAlert();
+                await expect(`${user.username}: no alert expected`).toEqual(`alert shown: "${alertText}"`);
+            }
+
+            await expect(
+                await SwagOverviewPage.getSelectedSortOption(),
+                `${user.username}: sort control`
+            ).toEqual('Price (low to high)');
+
+            await expect(
+                await SwagOverviewPage.getSwagNames(),
+                `${user.username}: product order`
+            ).toEqual(expectedOrder);
         }
-    });
-
-    it.skip('[QG-54] offers a Best sellers sort option', async () => {
-        const options = await $$('[data-test="product-sort-container"] option').map((option) => option.getText());
-
-        await expect(options).toContain('Best sellers');
     });
 });
