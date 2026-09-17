@@ -65,15 +65,9 @@ describe('Swag items sorting', () => {
                 await expect(`${user.username}: no alert expected`).toEqual(`alert shown: "${alertText}"`);
             }
 
-            await expect(
-                await SwagOverviewPage.getSelectedSortOption(),
-                `${user.username}: sort control`
-            ).toEqual('Price (low to high)');
+            await expect(await SwagOverviewPage.getSelectedSortOption()).toEqual('Price (low to high)');
 
-            await expect(
-                await SwagOverviewPage.getSwagNames(),
-                `${user.username}: product order`
-            ).toEqual(expectedOrder);
+            await expect(await SwagOverviewPage.getSwagNames()).toEqual(expectedOrder);
         }
     });
 });
