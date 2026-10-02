@@ -115,38 +115,87 @@ describe('QG-50 — Shopper sorts the catalogue by price', () => {
         await expect(await SwagOverviewPage.getSwagNames()).toEqual(NAME_A_TO_Z);
     });
 
-    it('[QG-144] Sorting works for every permitted non-visual account', async () => {
-        const accounts = [
-            LOGIN_USERS.PROBLEM,
-            LOGIN_USERS.PERFORMANCE,
-            LOGIN_USERS.ERROR,
-        ];
+    it('[QG-144] Sorting works for problem_user', async () => {
+        const user = LOGIN_USERS.PROBLEM;
+        await setTestContext({ user, path: PAGES.SWAG_ITEMS });
+        await SwagOverviewPage.waitForIsShown();
 
-        for (const user of accounts) {
-            await setTestContext({ user, path: PAGES.SWAG_ITEMS });
-            await SwagOverviewPage.waitForIsShown();
+        await SwagOverviewPage.selectSortOption('lohi');
 
-            await SwagOverviewPage.selectSortOption('lohi');
-
-            const alertOpenLohi = await browser.isAlertOpen();
-            if (alertOpenLohi) {
-                const alertText = await browser.getAlertText();
-                await browser.acceptAlert();
-                await expect(`${user.username}: alert on lohi sort: ${alertText}`).toEqual(`${user.username}: no alert`);
-            }
-
-            await expect(await SwagOverviewPage.getSwagNames()).toEqual(PRICE_LOW_TO_HIGH);
-
-            await SwagOverviewPage.selectSortOption('hilo');
-
-            const alertOpenHilo = await browser.isAlertOpen();
-            if (alertOpenHilo) {
-                const alertText = await browser.getAlertText();
-                await browser.acceptAlert();
-                await expect(`${user.username}: alert on hilo sort: ${alertText}`).toEqual(`${user.username}: no alert`);
-            }
-
-            await expect(await SwagOverviewPage.getSwagNames()).toEqual(PRICE_HIGH_TO_LOW);
+        const alertOpenLohi = await browser.isAlertOpen();
+        if (alertOpenLohi) {
+            const alertText = await browser.getAlertText();
+            await browser.acceptAlert();
+            await expect(`${user.username}: alert on lohi sort: ${alertText}`).toEqual(`${user.username}: no alert`);
         }
+
+        await expect(await SwagOverviewPage.getSwagNames()).toEqual(PRICE_LOW_TO_HIGH);
+
+        await SwagOverviewPage.selectSortOption('hilo');
+
+        const alertOpenHilo = await browser.isAlertOpen();
+        if (alertOpenHilo) {
+            const alertText = await browser.getAlertText();
+            await browser.acceptAlert();
+            await expect(`${user.username}: alert on hilo sort: ${alertText}`).toEqual(`${user.username}: no alert`);
+        }
+
+        await expect(await SwagOverviewPage.getSwagNames()).toEqual(PRICE_HIGH_TO_LOW);
+    });
+
+    it('[QG-144] Sorting works for performance_glitch_user', async () => {
+        const user = LOGIN_USERS.PERFORMANCE;
+        await setTestContext({ user, path: PAGES.SWAG_ITEMS });
+        await SwagOverviewPage.waitForIsShown();
+
+        await SwagOverviewPage.selectSortOption('lohi');
+
+        const alertOpenLohi = await browser.isAlertOpen();
+        if (alertOpenLohi) {
+            const alertText = await browser.getAlertText();
+            await browser.acceptAlert();
+            await expect(`${user.username}: alert on lohi sort: ${alertText}`).toEqual(`${user.username}: no alert`);
+        }
+
+        await expect(await SwagOverviewPage.getSwagNames()).toEqual(PRICE_LOW_TO_HIGH);
+
+        await SwagOverviewPage.selectSortOption('hilo');
+
+        const alertOpenHilo = await browser.isAlertOpen();
+        if (alertOpenHilo) {
+            const alertText = await browser.getAlertText();
+            await browser.acceptAlert();
+            await expect(`${user.username}: alert on hilo sort: ${alertText}`).toEqual(`${user.username}: no alert`);
+        }
+
+        await expect(await SwagOverviewPage.getSwagNames()).toEqual(PRICE_HIGH_TO_LOW);
+    });
+
+    it('[QG-144] Sorting works for error_user', async () => {
+        const user = LOGIN_USERS.ERROR;
+        await setTestContext({ user, path: PAGES.SWAG_ITEMS });
+        await SwagOverviewPage.waitForIsShown();
+
+        await SwagOverviewPage.selectSortOption('lohi');
+
+        const alertOpenLohi = await browser.isAlertOpen();
+        if (alertOpenLohi) {
+            const alertText = await browser.getAlertText();
+            await browser.acceptAlert();
+            await expect(`${user.username}: alert on lohi sort: ${alertText}`).toEqual(`${user.username}: no alert`);
+        }
+
+        await expect(await SwagOverviewPage.getSwagNames()).toEqual(PRICE_LOW_TO_HIGH);
+
+        await SwagOverviewPage.selectSortOption('hilo');
+
+        const alertOpenHilo = await browser.isAlertOpen();
+        if (alertOpenHilo) {
+            const alertText = await browser.getAlertText();
+            await browser.acceptAlert();
+            await expect(`${user.username}: alert on hilo sort: ${alertText}`).toEqual(`${user.username}: no alert`);
+        }
+
+        await expect(await SwagOverviewPage.getSwagNames()).toEqual(PRICE_HIGH_TO_LOW);
     });
 });
