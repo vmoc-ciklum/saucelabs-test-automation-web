@@ -76,6 +76,20 @@ class SwagOverviewPage extends BasePage {
   async getSwagNames(): Promise<string[]> {
     return $$('.inventory_item_name').map((name) => name.getText());
   }
+
+  /**
+   * Get all option labels from the sort control, in the order they appear
+   */
+  async getSortOptions(): Promise<string[]> {
+    return $$('[data-test="product-sort-container"] option').map((opt) => opt.getText());
+  }
+
+  /**
+   * Get the label of the currently selected sort option
+   */
+  async getSelectedSortOption(): Promise<string> {
+    return $('[data-test="product-sort-container"] option:checked').getText();
+  }
 }
 
 export default new SwagOverviewPage();
